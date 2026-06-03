@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-web-app
+  namespace: default
+  annotations:
+    # Rewrite target example if paths differ between external URLs and your backends
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx # Tells the cluster which controller processes this file
+  rules:
+  - host: raviteja.store # The domain name to access your app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-app-service # Destination service name
+            port:
+              number: 80 # Destination service port
+      # - path: /api
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: api-service
+      #       port:
+      #         number: 8080
